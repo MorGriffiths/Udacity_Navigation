@@ -2,6 +2,7 @@
 import torch.optim as optim
 import random
 import torch
+import torch.nn.functional as F
 import numpy as np
 
 from qnetwork import QNetwork

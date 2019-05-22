@@ -3,7 +3,15 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 """
-Dueling QNetwork for function aproximation. 
+Dueling QNetwork for function aproximation. Splits the network prior to the end into two streams V and Q. 
+V is the estimate of the value of the state. Q is the advantage of each action given the state.
+Two formulations for subtracting Q from V:
+V - max(Q)
+This verision makes more sense theoretically as the value of V* should equal the max(Q*(s,A)). 
+But in practice mean allows for better performance.
+V - mean(Q)
+Same as max except now they are separated by a constant. 
+And not as susceptable to over optimism due to randomness of Q values.
 """
 
 class Dueling_QNetwork(nn.Module):

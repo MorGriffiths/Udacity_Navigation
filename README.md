@@ -7,11 +7,31 @@ Contains the weights of the trained RL bot to solve the problem.
 Graphs indicating the progress of the agent and when it solved the problem.
 Requires OpenAI gym
 
-# Project Layout
+Target Environment
+Banana_Linux_NoVis/Banana.x86_64
 
-agent.py
+State space = 37
+Action space = 4
+
+Goal is to navigate a 3d world and collect yellow bananas whlie avoiding blue bananas
+
+## Project Layout
+
+# Agents/
+
+DQN, Priority_DQN
+
+# Buffers/
+
+Vanilla ReplayBuffer, PriorityReplayBuffer
+
+# Networks/
+
+QNetwork, Dueling_QNetwork
+
+# Main files
+
 train.py
-qnetwork.py
 checkpoint.pth
 torch.yml
 

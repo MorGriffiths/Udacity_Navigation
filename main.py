@@ -1,6 +1,21 @@
 from train import train
-from agent import Agent
+from Agents import DQN,Priority_DQN
 import matplotlib.pyplot as plt
+import gym
+import numpy as np
+
+# Parameters
+BUFFER_SIZE = 10000
+BATCH_SIZE = 32
+ALPHA = 0.5
+START_BETA = 0.5
+END_BETA = 1
+LR = 0.000025
+EPSILON = 1
+MIN_EPSILON = 0.1
+GAMMA = 0.99
+TAU = 1e-3
+UPDATE_EVERY = 4
 
 def main():
     env = gym.make('LunarLander-v2')
@@ -8,9 +23,9 @@ def main():
     nA = env.action_space.n
     nS = env.observation_space.shape[0]
     seed = 7
-    agent = Agent(nA,nS,seed)
+    agent = Priority_DQN(nA,nS,seed)
 
-    scores = train()
+    scores = train(agent,env)
 
     # plot the scores
     fig = plt.figure()
@@ -18,7 +33,7 @@ def main():
     plt.plot(np.arange(len(scores)), scores)
     plt.ylabel('Score')
     plt.xlabel('Episode #')
-    savefig('/Users/morgan/Code/Udacity_Navigation/agent_scores.png', bbox_inches='tight')
+    plt.savefig('agent_scores.png', bbox_inches='tight')
 
-if __name__ == if __name__ == "__main__":
+if __name__ == "__main__":
     main()
