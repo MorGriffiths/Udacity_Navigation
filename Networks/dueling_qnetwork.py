@@ -31,13 +31,20 @@ class Dueling_QNetwork(nn.Module):
         self.vfc1 = nn.Linear(32,1)
 
     def forward(self,state):
+        x = state
+        if not isinstance(state,torch.Tensor):
+            x = torch.tensor(x,device = self.device,dtype=torch.float32)
+            x = x.unsqueeze(0)
         x = F.relu(self.fc1(state))
         x = F.relu(self.fc2(x))
-        q = F.relu(self.Qfc1(x))
+        a = F.relu(self.Qfc1(x))
         v = F.relu(self.Vfc1(x))
         # Max formulation
         # q_max = torch.max(q)
         # q.sub_(max)
-        mean = torch.mean(q)
-        q.sub_(mean)
-        return torch.add(q,v)
+        # mean = torch.mean(a)
+        # q.sub_(mean)
+        # torch.add(q,v)
+        v = v.expand_as(a)
+        q = v + a - a.mean(1,keepdim=True).expand_as(a)
+        return q

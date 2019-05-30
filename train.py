@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from collections import deque
 
-def train(agent,env,n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
+def train(agent,env,n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995,update_target=1000):
     """Deep Q-Learning.
     
     Params
@@ -12,6 +12,7 @@ def train(agent,env,n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, ep
         eps_start (float): starting value of epsilon, for epsilon-greedy action selection
         eps_end (float): minimum value of epsilon
         eps_decay (float): multiplicative factor (per episode) for decreasing epsilon
+        update_target (int): number of episodes until updating target network with local network
     """
     scores = []
     scores_window = deque(maxlen=100)
@@ -22,6 +23,7 @@ def train(agent,env,n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, ep
         for t in range(max_t):
             action = agent.act(state,eps)
             next_state,reward,done,_ = env.step(action)
+            agent.step(next_state,reward,done)
             state = next_state
             score += reward
             if done:
