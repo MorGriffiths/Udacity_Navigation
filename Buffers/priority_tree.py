@@ -15,6 +15,8 @@ I_episode: current episode of training
 
 Index: is calculated by i_episode % buffer_size. This loops the index after exceeding the buffer_size.
 
+Indicies: (List) of memory/priority entries
+
 intermediate_dict: maps index to intermediate node. Since each Intermediate node is responsible 
 for a given slice of the priority array, given a particular index, it will return the Intermediate node
 'responsible' for that index.
@@ -61,21 +63,28 @@ class PriorityTree(object):
         # Update sum
         propogate(self.intermediate_dict[index],self.priority_array)
     
-    def sample(self,i_episode):
+    def sample(self,index):
         # Sample one experience uniformly from each slice of the priorities
-        if i_episode >= self.buffer_size:
+        if index >= self.buffer_size:
             indicies = [random.sample(list(range(sample*self.num_intermediate_nodes,(sample+1)*self.num_intermediate_nodes)),1)[0] for sample in range(self.batch_size)]
         else:
-            interval = int(i_episode / self.batch_size)
+            interval = int(index / self.batch_size)
             indicies = [random.sample(list(range(sample*interval,(sample+1)*interval)),1)[0] for sample in range(self.batch_size)]
-        print('indicies',indicies)
+#         print('indicies',indicies)
         priorities = self.priority_array[indicies]
         return priorities,indicies
     
-    def update_priorities(self,priorities,indicies):
+    def update_priorities(self,TD_errors,indicies):
+#         print('TD_errors',TD_errors)
+#         print('TD_errors shape',TD_errors.shape)
+        priorities = (abs(TD_errors)+self.epsilon)**self.alpha
+#         print('priorities shape',priorities.shape)
+#         print('indicies shape',len(indicies))
+#         print('self.priority_array shape',self.priority_array.shape)
         self.priority_array[indicies] = priorities
         # Update sum
-        intermediate_nodes = set(self.intermediate_dict[indicies])
+        nodes = [self.intermediate_dict[index] for index in indicies] 
+        intermediate_nodes = set(nodes)
         [propogate(node,self.priority_array) for node in intermediate_nodes]
     
 class Node(object):

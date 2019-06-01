@@ -16,7 +16,7 @@ of the sum_tree which i call priority tree.
 """
 
 class PriorityReplayBuffer(object):
-    def __init__(self,action_size,buffer_size,batch_size,seed,alpha=0.5,beta=0.5,beta_end=1,beta_duration=1e-5,epsilon=7e-5):
+    def __init__(self,action_size,buffer_size,batch_size,seed,alpha=0.5,beta=0.5,beta_end=1,beta_duration=1e+5,epsilon=7e-5):
         
         self.seed = random.seed(seed)
         self.action_size = action_size
@@ -26,7 +26,7 @@ class PriorityReplayBuffer(object):
         self.beta = beta
         self.beta_end = beta_end
         self.beta_duration = beta_duration
-        self.beta_increment = (beta - beta_end) / beta_duration
+        self.beta_increment = (beta_end - beta) / beta_duration
         self.max_w = 0
         self.epsilon = epsilon
         self.TD_sum = 0
@@ -40,9 +40,9 @@ class PriorityReplayBuffer(object):
         index = i_episode % self.buffer_size
         # add memory to memory and add corresponding priority to the priority tree
         self.memory[index] = e
-        sum_tree.add(TD_error,self.index)
+        self.sum_tree.add(TD_error,index)
 
-    def sample(self):
+    def sample(self,index):
         # We times the error by these weights for the updates
         # Super inefficient to sum everytime. We could implement the tree sum structure. 
         # Or we could sum once on the first sample and then keep track of what we add and lose from the buffer.
@@ -50,27 +50,42 @@ class PriorityReplayBuffer(object):
         # Anneal beta
         self.update_beta()
         # Get the samples and indicies
-        priorities,indicies = self.sum_tree.sample()
+        priorities,indicies = self.sum_tree.sample(index)
         # Normalize with the sum
         norm_priorities = priorities / self.sum_tree.root.value
-        samples = self.memory[indicies]
+        samples = [self.memory[index] for index in indicies]
+#         samples = list(operator.itemgetter(*self.memory)(indicies))
+#         samples = self.memory[indicies]
         # Importance weights
+#         print('self.beta',self.beta)
+#         print('self.beta',self.buffer_size)
         importances = [(priority * self.buffer_size)**-self.beta for priority in norm_priorities]
         self.max_w = max(self.max_w,max(importances))
         # Normalize importance weights
+#         print('importances',importances)
+#         print('self.max_w',self.max_w)
         norm_importances = [importance / self.max_w for importance in importances]
-        
+#         print('norm_importances',norm_importances)
         states = torch.from_numpy(np.vstack([e.state for e in samples if e is not None])).float().to(device)
         actions = torch.from_numpy(np.vstack([e.action for e in samples if e is not None])).long().to(device)
         rewards = torch.from_numpy(np.vstack([e.reward for e in samples if e is not None])).float().to(device)
         next_states = torch.from_numpy(np.vstack([e.next_state for e in samples if e is not None])).float().to(device)
-        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None])).uint8().to(device)
+        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None])).float().to(device)
         
-        return (states,actions,rewards,next_states,dones,indicies,norm_importances)
+        if index % 4900 == 0:
+            print('beta',self.beta)
+            print('self.max_w',self.max_w)
+            print('len mem',len(self.memory))
+            print('tree sum',self.sum_tree.root.value)
+        
+        return (states,actions,rewards,next_states,dones),indicies,norm_importances
 
     def update_beta(self):
+#         print('update_beta')
+#         print('self.beta_end',self.beta_end)
+#         print('self.beta_increment',self.beta_increment)
         self.beta += self.beta_increment
         self.beta = min(self.beta,self.beta_end)
     
     def __len__(self):
-        return len(self.memory)
+        return len(self.memory.keys())
