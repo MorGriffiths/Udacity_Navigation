@@ -2,7 +2,7 @@ import numpy as np
 import random
 import torch
 from collections import namedtuple, deque
-from priority_tree import PriorityTree,propogate
+from Buffers.priority_tree import PriorityTree
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -13,6 +13,9 @@ beta(IS) informs the importance of the sample update
 
 The paper uses a sum tree to calculate the priority sum in O(log n) time. As such, i've implemented my own version
 of the sum_tree which i call priority tree.
+
+We're increasing beta(IS) from 0.5 to 1 over time
+alpha(priority) we're holding constant at 0.5
 """
 
 class PriorityReplayBuffer(object):
@@ -70,7 +73,8 @@ class PriorityReplayBuffer(object):
         actions = torch.from_numpy(np.vstack([e.action for e in samples if e is not None])).long().to(device)
         rewards = torch.from_numpy(np.vstack([e.reward for e in samples if e is not None])).float().to(device)
         next_states = torch.from_numpy(np.vstack([e.next_state for e in samples if e is not None])).float().to(device)
-        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None])).float().to(device)
+#         np.vstack([e.done for e in samples if e is not None]).astype(int)
+        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None]).astype(int)).float().to(device)
         
         if index % 4900 == 0:
             print('beta',self.beta)

@@ -4,8 +4,8 @@ import random
 import torch
 import numpy as np
 
-from Networks/dueling_qnetwork.py import Dueling_QNetwork
-from Buffers/priority_replay_buffer.py import PriorityReplayBuffer
+from Networks.dueling_qnetwork import Dueling_QNetwork
+from Buffers.priority_replay_buffer import PriorityReplayBuffer
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 """
@@ -91,13 +91,8 @@ class Priority_DQN(object):
         TD_errors = np.abs(TD_error.squeeze(1).detach().cpu().numpy())
         self.memory.sum_tree.update_priorities(TD_errors,indicies)
         self.update_target()
-
-    # def update_target(self,tau):
-    #     for local_param,target_param in zip(self.qnetwork_local.parameters(),self.qnetwork_target.parameters()):
-    #         target_param.data.copy_(local_param.data)
         
     # Polyak averaging  
     def update_target(self):
         for local_param,target_param in zip(self.qnetwork_local.parameters(),self.qnetwork_target.parameters()):
             target_param.data.copy_(self.tau*local_param.data + (1-self.tau)*target_param.data)
-#         self.qnetwork_local.parameters() = TAU*self.qnetwork_local.parameters() + (1-TAU)*self.qnetwork_target.parameters()

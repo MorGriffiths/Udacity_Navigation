@@ -1,12 +1,16 @@
 
-import torch.optim as optim
+
 import random
 import torch
 import torch.nn.functional as F
+import torch.optim as optim
 import numpy as np
+import sys
 
-from qnetwork import QNetwork
-from replay_buffer import ReplayBuffer
+
+# sys.path.append('/Users/morgan/Code/Udacity_Navigation/')
+from Networks.qnetwork import QNetwork
+from Buffers.replay_buffer import ReplayBuffer
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
