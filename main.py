@@ -8,8 +8,8 @@ from train import train
 from Agents.Priority_DQN import Priority_DQN
 from plot import plot
 
-sys.path.append('/Users/morgan/Code/ml-agents/ml-agents-envs/mlagents/')
-from envs.environment import UnityEnvironment
+from mlagents.envs import UnityEnvironment
+# from gym_unity.envs import UnityEnv
 
 # Parameters
 BUFFER_SIZE = 10000
@@ -27,11 +27,14 @@ UPDATE_EVERY = 4
 CLIP_NORM = 10
 
 def main():
-    env_name = "BananaCollectors"
-    env = UnityEnvironment(file_name="/data/Banana_Linux_NoVis/Banana.x86_64")
-    # get the default brain
+    env_name = file_name="VisualBanana.app"
+    train_mode = True  # Whether to run the environment in training or inference mode
+    env = UnityEnvironment(file_name=env_name)
+    # env = UnityEnvironment(file_name="/data/Banana_Linux_NoVis/Banana.x86_64")
+    # Set the default brain to work with
     brain_name = env.brain_names[0]
     brain = env.brains[brain_name]
+    env_info = env.reset(train_mode=True)[brain_name]
     # Action and Observation spaces
     nA = brain.vector_action_space_size
     nS = env_info.vector_observations.shape[1]
