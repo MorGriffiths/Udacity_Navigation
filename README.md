@@ -87,4 +87,4 @@ pip install -r requirements.txt
   _ [Windows (32-bits)](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86.zip)
   _ [Windows (64 bits)](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86_64.zip)
 
-* If necessary, inside the ipynb files, change the path to the unity environment appropriately
+If necessary, inside the ipynb files, change the path to the unity environment appropriately
