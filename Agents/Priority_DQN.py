@@ -7,7 +7,7 @@ import numpy as np
 from Networks.dueling_qnetwork import Dueling_QNetwork
 from Buffers.priority_replay_buffer import PriorityReplayBuffer
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 """
 DQN with Priority Replay, DDQN, and Dueling DQN.
 """

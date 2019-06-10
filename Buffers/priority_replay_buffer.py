@@ -4,7 +4,7 @@ import torch
 from collections import namedtuple, deque
 from Buffers.priority_tree import PriorityTree
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 """
 Priority Buffer HyperParameters
@@ -74,7 +74,8 @@ class PriorityReplayBuffer(object):
         rewards = torch.from_numpy(np.vstack([e.reward for e in samples if e is not None])).float().to(device)
         next_states = torch.from_numpy(np.vstack([e.next_state for e in samples if e is not None])).float().to(device)
 #         np.vstack([e.done for e in samples if e is not None]).astype(int)
-        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None]).astype(int)).float().to(device)
+        # dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None]).astype(int)).float().to(device)
+        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None]).float().to(device)
         
         if index % 4900 == 0:
             print('beta',self.beta)
