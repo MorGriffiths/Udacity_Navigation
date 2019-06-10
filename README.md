@@ -80,13 +80,6 @@ python -m venv banana
 source banana/bin/activate
 ```
 
-Or with Anaconda
-
-```
-python -m venv banana
-source banana/bin/activate
-```
-
 Install Unity ml-agents.
 
 ```
@@ -102,8 +95,6 @@ pip install -r requirements.txt
 ```
 
 ## Download the Unity Environment which matches your operating system
-
-_Environments come preloaded with the MacOS verisons of Banana and VisualBanana_
 
 - [Linux](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux.zip)
 - [Mac OSX](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana.app.zip)

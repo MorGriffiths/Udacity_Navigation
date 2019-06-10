@@ -7,7 +7,7 @@ from train import train
 from Agents.Priority_DQN import Priority_DQN
 from plot import plot
 
-from mlagents.envs import UnityEnvironment
+from unityagents import UnityEnvironment
 # from gym_unity.envs import UnityEnv
 
 # Parameters
