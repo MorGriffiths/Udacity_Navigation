@@ -62,7 +62,6 @@ QNetwork, Dueling_QNetwork
 
 train.py
 checkpoint.pth
-torch.yml
 
 ## Installation
 
