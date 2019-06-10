@@ -80,6 +80,13 @@ python -m venv banana
 source banana/bin/activate
 ```
 
+Or with Anaconda
+
+```
+python -m venv banana
+source banana/bin/activate
+```
+
 Install Unity ml-agents.
 
 ```
