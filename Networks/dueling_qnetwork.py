@@ -52,6 +52,7 @@ And not as susceptable to over optimism due to randomness of Q values.
 class Dueling_QNetwork(nn.Module):
     def __init__(self,state_space,action_space,seed,hidden_dims=(32,32),activation_fc=F.relu):
         super(Dueling_QNetwork,self).__init__()
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.activation_fc = activation_fc
         self.seed = torch.manual_seed(seed)
         print('hidden_dims',hidden_dims)
@@ -66,7 +67,7 @@ class Dueling_QNetwork(nn.Module):
     def forward(self,state):
         x = state
         if not isinstance(state,torch.Tensor):
-            x = torch.tensor(x,dtype=torch.float32) #device = self.device,
+            x = torch.tensor(x,dtype=torch.float32,device = self.device,)
             x = x.unsqueeze(0)
         x = self.activation_fc(self.input_layer(x))
         for hidden_layer in self.hidden_layers:
