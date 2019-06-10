@@ -21,12 +21,14 @@ The DQN agent solved the enviroment in 625 steps (Average Reward > 13).
 ## There are two Environments:
 
 Vector Banana
-State space = 37
-Action space = 4
+
+- State space = 37
+- Action space = 4
 
 Visual Banana
-State space = ?
-Action space = 4
+
+- State space = ?
+- Action space = 4
 
 ---
 
@@ -34,10 +36,11 @@ Goal is to navigate a 3d world and collect yellow bananas whlie avoiding blue ba
 Each yellow banana is worth +1. Each blue banana -1
 
 Agent has 4 actions:
-Move forward
-Move backward
-Rotate left
-Rotate right
+
+- Move forward
+- Move backward
+- Rotate left
+- Rotate right
 
 The environment is considered to be solved when the agent reaches an average reward of +13
 
@@ -93,9 +96,12 @@ pip install -r requirements.txt
 
 ## Download the Unity Environment which matches your operating system
 
+_Environments come preloaded with the MacOS verisons of Banana and VisualBanana_
+
 - [Linux](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux.zip)
 - [Mac OSX](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana.app.zip)
 - [Windows (32-bits)](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86.zip)
 - [Windows (64 bits)](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86_64.zip)
 
-If necessary, inside the ipynb files, change the path to the unity environment appropriately
+Place the environment into the Environments folder.
+If necessary, inside main.py, change the path to the unity environment appropriately
