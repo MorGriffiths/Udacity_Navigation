@@ -4,9 +4,19 @@
 
 Submission for completing the Udacity Project
 
-Uses DQN to solve the navigation project.
+## Implementation
+
+The agent is a combination of 4 add-ons to vanilla DQN.
+
+- Priority Replay
+- Double DQN
+- Dueling DQN
+- Polyak Averaging
+
 Contains the weights of the trained RL bot to solve the problem.
 Graphs indicating the progress of the agent and when it solved the problem.
+
+The DQN agent solved the enviroment in 625 steps (Average Reward > 13).
 
 ## There are two Environments:
 
