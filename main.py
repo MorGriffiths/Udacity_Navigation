@@ -26,8 +26,11 @@ UPDATE_EVERY = 4
 CLIP_NORM = 10
 checkpoint_path = 'Vector_banana/checkpoint.pth'
 
+### Change this to match your desired environment ###
+ENVIRONMENT_PATH = "Environments/Banana_Linux/Banana.x86_64" 
+
 def main():
-    env_name = file_name="Environments/Banana_Linux/Banana.x86_64"
+    env_name = file_name = ENVIRONMENT_PATH
     train_mode = True  # Whether to run the environment in training or inference mode
     env = UnityEnvironment(file_name=env_name,no_graphics=True)
     # env = UnityEnvironment(file_name="/data/Banana_Linux_NoVis/Banana.x86_64")
