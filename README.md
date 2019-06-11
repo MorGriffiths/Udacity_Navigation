@@ -27,7 +27,7 @@ Vector Banana
 
 Visual Banana
 
-- State space = ?
+- State space = Array of raw pixels (1, 84, 84, 3)
 - Action space = 4
 
 ---
@@ -35,7 +35,7 @@ Visual Banana
 Goal is to navigate a 3d world and collect yellow bananas whlie avoiding blue bananas.
 Each yellow banana is worth +1. Each blue banana -1
 
-Agent has 4 actions:
+In each environment the Agent has 4 actions:
 
 - Move forward
 - Move backward
@@ -109,3 +109,9 @@ pip install -r requirements.txt
 
 Place the environment into the Environments folder.
 If necessary, inside main.py, change the path to the unity environment appropriately
+
+## Run the project
+
+Each project solution is contained within the notebooks "Navigation.ipynb" and "Navigation_Pixels.ipynb"
+
+Make sure the environment path is correctly set in the desired notebook. Then run the cells as wanted.

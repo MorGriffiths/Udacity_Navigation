@@ -78,3 +78,41 @@ class Dueling_QNetwork(nn.Module):
         q = v + a - a.mean(1,keepdim=True).expand_as(a)
         return q
         
+class Visual_Dueling_QNetwork(nn.Module):
+    def __init__(self,state_space,action_space,seed,hidden_dims=(64,32),activation_fc=F.relu):
+        super(Dueling_QNetwork,self).__init__()
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.activation_fc = activation_fc
+        self.seed = torch.manual_seed(seed)
+        print('hidden_dims',hidden_dims)
+
+        self.conv1 = nn.Conv3d(3, 64, kernel_size=(1, 3, 3), stride=(1,3,3))
+        self.bn1 = nn.BatchNorm3d(64)
+        self.conv2 = nn.Conv3d(64, 128, kernel_size=(1, 3, 3), stride=(1,3,3))
+        self.bn2 = nn.BatchNorm3d(128)
+        self.conv3 = nn.Conv3d(128, 128, kernel_size=(4, 3, 3), stride=(1,3,3))
+        self.bn3 = nn.BatchNorm3d(128)
+
+        self.hidden_layers = nn.ModuleList()
+        for i in range(len(hidden_dims)-1):
+            hidden_layer = nn.Linear(hidden_dims[i],hidden_dims[i+1])
+            self.hidden_layers.append(hidden_layer)
+        self.value_output = nn.Linear(hidden_dims[-1],1)
+        self.advantage_output = nn.Linear(hidden_dims[-1],action_space)
+        
+    def forward(self,state):
+        x = state
+        if not isinstance(state,torch.Tensor):
+            x = torch.tensor(x,dtype=torch.float32,device = self.device)
+            x = x.unsqueeze(0)
+        x = F.activation_fc(self.bn1(self.conv1(x)))
+        x = F.activation_fc(self.bn2(self.conv2(x)))
+        x = F.activation_fc(self.bn3(self.conv3(x)))
+        x = self.activation_fc(hidden_layer(x))
+        for hidden_layer in self.hidden_layers:
+            x = self.activation_fc(hidden_layer(x))
+        a = self.advantage_output(x)
+        v = self.value_output(x)
+        v = v.expand_as(a)
+        q = v + a - a.mean(1,keepdim=True).expand_as(a)
+        return q

@@ -1,5 +1,6 @@
 .### OSX ###
 *.DS_Store
+*.ipynb_checkpoints/
 *.pyc
 *.vscode
 .AppleDouble
