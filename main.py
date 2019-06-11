@@ -27,7 +27,8 @@ CLIP_NORM = 10
 checkpoint_path = 'Vector_banana/checkpoint.pth'
 
 ### Change this to match your desired environment ###
-ENVIRONMENT_PATH = "Environments/Banana_Linux/Banana.x86_64" 
+# ENVIRONMENT_PATH = "Environments/Banana_Linux/Banana.x86_64" 
+ENVIRONMENT_PATH = "Environments/VisualBanana_Linux/Banana.x86_64" 
 
 def main():
     env_name = file_name = ENVIRONMENT_PATH
