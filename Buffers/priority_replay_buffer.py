@@ -73,8 +73,8 @@ class PriorityReplayBuffer(object):
         rewards = torch.from_numpy(np.vstack([e.reward for e in samples if e is not None])).float().to(self.device)
         next_states = torch.from_numpy(np.vstack([e.next_state for e in samples if e is not None])).float().to(self.device)
 #         np.vstack([e.done for e in samples if e is not None]).astype(int)
-        # dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None]).astype(int)).float().to(self.device)
-        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None])).float().to(self.device)
+        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None]).astype(int)).float().to(self.device)
+        # dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None])).float().to(self.device)
         
         if index % 4900 == 0:
             print('beta',self.beta)
