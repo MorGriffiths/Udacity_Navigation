@@ -82,7 +82,10 @@ class Priority_DQN(object):
         # Local
         local = self.qnetwork_local(states).gather(1,actions)
         TD_error = local - targets
-        loss = ((torch.tensor(weights) * TD_error)**2*0.5).mean()
+        if TD_error.is_cuda:
+            loss = ((torch.tensor(weights) * torch.tensor(TD_error))**2*0.5).mean()
+        else:
+            loss = ((torch.tensor(weights) * TD_error)**2*0.5).mean()
         self.optimizer.zero_grad()
         loss.backward()
         torch.nn.utils.clip_grad_norm_(self.qnetwork_local.parameters(),self.clip_norm)
