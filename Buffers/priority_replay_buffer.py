@@ -4,8 +4,6 @@ import torch
 from collections import namedtuple, deque
 from Buffers.priority_tree import PriorityTree
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 """
 Priority Buffer HyperParameters
 alpha(priority or w) dictates how biased the sampling should be towards the TD error. 0 < a < 1
@@ -33,6 +31,7 @@ class PriorityReplayBuffer(object):
         self.max_w = 0
         self.epsilon = epsilon
         self.TD_sum = 0
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.experience = namedtuple('experience',field_names=['state','action','reward','next_state','done','i_episode'])
         self.sum_tree = PriorityTree(buffer_size,batch_size,alpha,epsilon)
@@ -69,13 +68,13 @@ class PriorityReplayBuffer(object):
 #         print('self.max_w',self.max_w)
         norm_importances = [importance / self.max_w for importance in importances]
 #         print('norm_importances',norm_importances)
-        states = torch.from_numpy(np.vstack([e.state for e in samples if e is not None])).float().to(device)
-        actions = torch.from_numpy(np.vstack([e.action for e in samples if e is not None])).long().to(device)
-        rewards = torch.from_numpy(np.vstack([e.reward for e in samples if e is not None])).float().to(device)
-        next_states = torch.from_numpy(np.vstack([e.next_state for e in samples if e is not None])).float().to(device)
+        states = torch.from_numpy(np.vstack([e.state for e in samples if e is not None])).float().to(self.device)
+        actions = torch.from_numpy(np.vstack([e.action for e in samples if e is not None])).long().to(self.device)
+        rewards = torch.from_numpy(np.vstack([e.reward for e in samples if e is not None])).float().to(self.device)
+        next_states = torch.from_numpy(np.vstack([e.next_state for e in samples if e is not None])).float().to(self.device)
 #         np.vstack([e.done for e in samples if e is not None]).astype(int)
-        # dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None]).astype(int)).float().to(device)
-        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None])).float().to(device)
+        # dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None]).astype(int)).float().to(self.device)
+        dones = torch.from_numpy(np.vstack([e.done for e in samples if e is not None])).float().to(self.device)
         
         if index % 4900 == 0:
             print('beta',self.beta)
