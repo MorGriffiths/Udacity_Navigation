@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from collections import deque
 
-def train(agent,env,brain_name,n_episodes=1800, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
+def train(agent,env,brain_name,checkpoint_path,n_episodes=1800, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
     """Deep Q-Learning.
     
     Params

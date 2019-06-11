@@ -1,6 +1,6 @@
 # Report
 
-Thanks to ostamand and Silvicek for laying the groundwork on getting the Github repo working with Unity.
+Thanks to ostamand for laying the groundwork on getting the Github repo working with Unity.
 Thanks to grokking-deep-reinforcement-learning for some code inspiration.
 
 DQN +
@@ -18,16 +18,16 @@ For exploration, epsilon is linearly decayed from an inital to a final value in 
 
 The hyperparameters of the model are:
 
-| Parameter         | Value         | Description                 |
-| ----------------- | ------------- | --------------------------- |
-| Replay start size | 200           | Min Replay memory to use    |
-| Replay size       | 10 000        | Replay memory max size      |
-| Batch size        | 32            | Number of samples per batch |
-| Update every      | 4             | Learn from replay every #.  |
-| Gamma             | 0.99          | Discount rate               |
-| Hidden layers     | [100,200,100] | Q-Network                   |
-| Tau               | 0.01          | Soft update rate            |
-| Learning rate     | 0.00025       |
+| Parameter         | Value   | Description                 |
+| ----------------- | ------- | --------------------------- |
+| Replay start size | 200     | Min Replay memory to use    |
+| Replay size       | 10 000  | Replay memory max size      |
+| Batch size        | 32      | Number of samples per batch |
+| Update every      | 4       | Learn from replay every #.  |
+| Gamma             | 0.99    | Discount rate               |
+| Hidden layers     | [36,36] | Q-Network                   |
+| Tau               | 0.01    | Soft update rate            |
+| Learning rate     | 0.00025 |
 
 while the training characteristics are:
 
@@ -35,8 +35,8 @@ while the training characteristics are:
 | ------------------------- | ----- | ------------------------------------------- |
 | Episodes                  | 1800  | # of episodes                               |
 | Steps                     | 1000  | Maximum # of steps per episode              |
-| Final score               | 16.93 | Average score after training (100 episodes) |
-| Episode before solve      | 550   | Average score of 13.0 (100 episodes)        |
+| Final score               | 130.1 | Average score after training (100 episodes) |
+| Episode before solve      | 734   | Average score of 13.1 (100 episodes)        |
 | Initial epsilon           | 1.0   |
 | Final epsilon             | 0.01  |
 | Final exploration episode | 500   |
