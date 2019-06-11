@@ -26,8 +26,8 @@ class Priority_DQN(object):
         self.tau = tau
         self.clip_norm = clip_norm
         
-        self.qnetwork_local = Dueling_QNetwork(state_space,action_space,seed)
-        self.qnetwork_target = Dueling_QNetwork(state_space,action_space,seed)
+        self.qnetwork_local = Dueling_QNetwork(state_space,action_space,seed).cuda()
+        self.qnetwork_target = Dueling_QNetwork(state_space,action_space,seed).cuda()
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(),lr=learning_rate)
         # Initialize replaybuffer
         self.memory = PriorityReplayBuffer(action_space,buffer_size,batch_size,seed,alpha)
