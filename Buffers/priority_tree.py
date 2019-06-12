@@ -46,7 +46,7 @@ class PriorityTree(object):
         self.epsilon = epsilon
         self.buffer_size = buffer_size
         self.batch_size = batch_size
-        self.num_intermediate_nodes = round(buffer_size / batch_size)
+        self.num_intermediate_nodes = math.ceil(buffer_size / batch_size)
         self.current_intermediate_node = 0
         self.root = Node(None)
         self.intermediate_nodes = [Intermediate(self.root,batch_size*x,batch_size*(x+1)) for x in range(self.num_intermediate_nodes)]

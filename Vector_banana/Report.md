@@ -41,13 +41,8 @@ while the training characteristics are:
 | Final epsilon             | 0.01  |
 | Final exploration episode | 500   |
 
-The figures below illustrate respectively the average score over 100 episodes and the loss during training.
+The figures below illustrate respectively the average score during training.
 
-![loss](assets/loss.png)
-![score](assets/score.png)
+![score](Vector_banana/checkpoint.pth)
 
-Finally, the figure below illustrates the score for 100 episodes after training.
-
-![score_100](assets/score_100.png)
-
-It is observed that further training of the agent could increase the average score. Two episodes have approx. a score of 0.0. Implementing prioritized experience replay could help maximize the training from those bad examples.
+The Agent could be improved by performing a Hyper parameter optimization. Or incorporating additional upgrades to DQN such as distributional value networks, or N step returns.
