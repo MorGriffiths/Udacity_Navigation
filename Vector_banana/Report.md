@@ -42,6 +42,6 @@ while the training characteristics are:
 
 The figure below illustrates the average score during training.
 
-![score](vector_banana_scores.pth)
+![score](vector_banana_scores.png)
 
 The Agent could be improved by performing a Hyper parameter optimization. Or incorporating additional upgrades to DQN such as distributional value networks, or N step returns.
