@@ -1,7 +1,7 @@
 # Report
 
-Thanks to ostamand for laying the groundwork on getting the Github repo working with Unity.
-Thanks to grokking-deep-reinforcement-learning for some code inspiration.
+Thanks to https://github.com/ostamand for laying the groundwork on getting the Github repo working with Unity.
+Thanks to grokking-deep-reinforcement-learning for code in the dueling network.
 
 DQN +
 
