@@ -40,8 +40,8 @@ while the training characteristics are:
 | Initial epsilon     | 1.0   |
 | Final epsilon       | 0.04  |
 
-The figures below illustrate respectively the average score during training.
+The figure below illustrates the average score during training.
 
-![score](Vector_banana/vector_banana_scores.pth)
+![score](vector_banana_scores.pth)
 
 The Agent could be improved by performing a Hyper parameter optimization. Or incorporating additional upgrades to DQN such as distributional value networks, or N step returns.
