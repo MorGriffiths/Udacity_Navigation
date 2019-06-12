@@ -120,5 +120,4 @@ The Vector Banana report.md is in the Vector_banana folder. Along with the perfo
 
 Additionally, i tried training visual banana from scratch but likely due to memory constraints it essentially broke in the notebook format. I expect i will be able to train effectively to outside of that. And in addition run some refresh to clear the cache every N epsidoes.
 
-A medium article describing the different add-ons i implemented to DQN
-[link to medium](https://medium.com/@C5ipo7i/improving-dqn-cde578df5d73?postPublishedType=initial)
+[link](https://medium.com/@C5ipo7i/improving-dqn-cde578df5d73?postPublishedType=initial) A medium article describing the different add-ons i implemented to DQN
