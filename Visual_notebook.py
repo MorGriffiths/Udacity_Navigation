@@ -140,21 +140,21 @@ plt.ion()
 
 #%%
 class Visual_Dueling_QNetwork(nn.Module):
-    def __init__(self,state_space,action_space,seed,hidden_dims=(18432,256),activation_fc=F.relu):
+    def __init__(self,state_space,action_space,seed,hidden_dims=(36864,1024),activation_fc=F.relu):
         super(Visual_Dueling_QNetwork,self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.activation_fc = activation_fc
         self.seed = torch.manual_seed(seed)
         print('hidden_dims',hidden_dims)
         # Input is (1,84,84,3) -> (1,3,1,84,84)
-        self.conv1 = nn.Conv3d(3, 64, kernel_size=(1, 3, 3), stride=(1,3,3))
-        self.bn1 = nn.BatchNorm3d(64)
+        self.conv1 = nn.Conv3d(3, 128, kernel_size=(1, 3, 3), stride=(1,3,3))
+        self.bn1 = nn.BatchNorm3d(128)
         # Output shape is (1,64,1,28,28)
-        self.conv2 = nn.Conv3d(64, 128, kernel_size=(1, 3, 3), stride=(1,3,3),padding=2)
-        self.bn2 = nn.BatchNorm3d(128)
+        self.conv2 = nn.Conv3d(128, 256, kernel_size=(1, 3, 3), stride=(1,3,3),padding=2)
+        self.bn2 = nn.BatchNorm3d(256)
         # Output shape is (1,128,5,10,10)
-        self.conv3 = nn.Conv3d(128, 128, kernel_size=(1, 3, 3), stride=(1,3,3),padding=2)
-        self.bn3 = nn.BatchNorm3d(128)
+        self.conv3 = nn.Conv3d(256, 256, kernel_size=(1, 3, 3), stride=(1,3,3),padding=2)
+        self.bn3 = nn.BatchNorm3d(256)
         # Output shape is (1,64,9,4,4)
 
         self.hidden_layers = nn.ModuleList()
@@ -230,7 +230,7 @@ class PriorityTree(object):
         self.epsilon = epsilon
         self.buffer_size = buffer_size
         self.batch_size = batch_size
-        self.num_intermediate_nodes = round(buffer_size / batch_size)
+        self.num_intermediate_nodes = math.ceil(buffer_size / batch_size)
         self.current_intermediate_node = 0
         self.root = Node(None)
         self.intermediate_nodes = [Intermediate(self.root,batch_size*x,batch_size*(x+1)) for x in range(self.num_intermediate_nodes)]
@@ -506,7 +506,7 @@ class Priority_DQN(object):
 # # Train
 
 #%%
-def train(agent,env,brain_name,n_episodes=1800, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
+def train(agent,env,brain_name,n_episodes=10000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
     """Deep Q-Learning.
     
     Params
@@ -557,7 +557,7 @@ def train(agent,env,brain_name,n_episodes=1800, max_t=1000, eps_start=1.0, eps_e
 #%%
 BUFFER_SIZE = 10000
 MIN_BUFFER_SIZE = 200
-BATCH_SIZE = 32
+BATCH_SIZE = 50
 ALPHA = 0.6 # 0.7 or 0.6
 START_BETA = 0.5 # from 0.5-1
 END_BETA = 1

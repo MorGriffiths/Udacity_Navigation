@@ -4,7 +4,7 @@ import random
 import torch
 import numpy as np
 
-from Networks.dueling_qnetwork import Dueling_QNetwork
+from Networks.dueling_qnetwork import Dueling_QNetwork, Visual_Dueling_QNetwork
 from Buffers.priority_replay_buffer import PriorityReplayBuffer
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -25,9 +25,10 @@ class Priority_DQN(object):
         self.alpha = alpha
         self.tau = tau
         self.clip_norm = clip_norm
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         
-        self.qnetwork_local = Dueling_QNetwork(state_space,action_space,seed).cuda()
-        self.qnetwork_target = Dueling_QNetwork(state_space,action_space,seed).cuda()
+        self.qnetwork_local = Visual_Dueling_QNetwork(state_space,action_space,seed).cuda()
+        self.qnetwork_target = Visual_Dueling_QNetwork(state_space,action_space,seed).cuda()
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(),lr=learning_rate)
         # Initialize replaybuffer
         self.memory = PriorityReplayBuffer(action_space,buffer_size,batch_size,seed,alpha)
@@ -54,7 +55,7 @@ class Priority_DQN(object):
                 self.learn(experiences,indicies,weights)
         
     def act(self,state,eps=0.):
-        state = torch.from_numpy(state).float().unsqueeze(0).to(device)
+        state = torch.from_numpy(state).float().unsqueeze(0).to(self.device)
         self.qnetwork_local.eval()
         
         with torch.no_grad():

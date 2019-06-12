@@ -79,19 +79,23 @@ class Dueling_QNetwork(nn.Module):
         return q
         
 class Visual_Dueling_QNetwork(nn.Module):
-    def __init__(self,state_space,action_space,seed,hidden_dims=(64,32),activation_fc=F.relu):
-        super(Dueling_QNetwork,self).__init__()
+    def __init__(self,state_space,action_space,seed,hidden_dims=(18432,512),activation_fc=F.relu):
+        super(Visual_Dueling_QNetwork,self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.activation_fc = activation_fc
         self.seed = torch.manual_seed(seed)
         print('hidden_dims',hidden_dims)
 
+        # Input is (1,84,84,3) -> (1,3,1,84,84)
         self.conv1 = nn.Conv3d(3, 64, kernel_size=(1, 3, 3), stride=(1,3,3))
         self.bn1 = nn.BatchNorm3d(64)
-        self.conv2 = nn.Conv3d(64, 128, kernel_size=(1, 3, 3), stride=(1,3,3))
+        # Output shape is (1,64,1,28,28)
+        self.conv2 = nn.Conv3d(64, 128, kernel_size=(1, 3, 3), stride=(1,3,3),padding=2)
         self.bn2 = nn.BatchNorm3d(128)
-        self.conv3 = nn.Conv3d(128, 128, kernel_size=(4, 3, 3), stride=(1,3,3))
+        # Output shape is (1,128,5,10,10)
+        self.conv3 = nn.Conv3d(128, 128, kernel_size=(1, 3, 3), stride=(1,3,3),padding=2)
         self.bn3 = nn.BatchNorm3d(128)
+        # Output shape is (1,64,9,4,4)
 
         self.hidden_layers = nn.ModuleList()
         for i in range(len(hidden_dims)-1):
@@ -105,10 +109,11 @@ class Visual_Dueling_QNetwork(nn.Module):
         if not isinstance(state,torch.Tensor):
             x = torch.tensor(x,dtype=torch.float32,device = self.device)
             x = x.unsqueeze(0)
-        x = F.activation_fc(self.bn1(self.conv1(x)))
-        x = F.activation_fc(self.bn2(self.conv2(x)))
-        x = F.activation_fc(self.bn3(self.conv3(x)))
-        x = self.activation_fc(hidden_layer(x))
+        x = self.activation_fc(self.bn1(self.conv1(x)))
+        x = self.activation_fc(self.bn2(self.conv2(x)))
+        x = self.activation_fc(self.bn3(self.conv3(x)))
+        # Flatten layer but retain number of samples
+        x = x.view(x.shape[0],x.shape[1] * x.shape[2] * x.shape[3] * x.shape[4])
         for hidden_layer in self.hidden_layers:
             x = self.activation_fc(hidden_layer(x))
         a = self.advantage_output(x)

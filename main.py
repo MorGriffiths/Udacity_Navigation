@@ -24,7 +24,7 @@ GAMMA = 0.99
 TAU = 0.01
 UPDATE_EVERY = 4
 CLIP_NORM = 10
-checkpoint_path = 'Vector_banana/checkpoint.pth'
+checkpoint_path = 'Visual_banana/checkpoint.pth'
 
 ### Change this to match your desired environment ###
 # ENVIRONMENT_PATH = "Environments/Banana_Linux/Banana.x86_64" 
@@ -41,7 +41,7 @@ def main():
     env_info = env.reset(train_mode=True)[brain_name]
     # Action and Observation spaces
     nA = brain.vector_action_space_size
-    nS = env_info.vector_observations.shape[1]
+    nS = env_info.visual_observations[0]
     print('Observation Space {}, Action Space {}'.format(nS,nA))
     seed = 7
     agent = Priority_DQN(nS,nA,seed,UPDATE_EVERY,BATCH_SIZE,BUFFER_SIZE,MIN_BUFFER_SIZE,LR,GAMMA,TAU,CLIP_NORM,ALPHA)

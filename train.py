@@ -2,7 +2,7 @@ import torch
 import numpy as np
 from collections import deque
 
-def train(agent,env,brain_name,checkpoint_path,n_episodes=1800, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
+def train(agent,env,brain_name,checkpoint_path,n_episodes=20, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
     """Deep Q-Learning.
     
     Params
@@ -20,14 +20,15 @@ def train(agent,env,brain_name,checkpoint_path,n_episodes=1800, max_t=1000, eps_
     index = 0
     for i_episode in range(1,n_episodes+1):
         env_info = env.reset(train_mode=True)[brain_name]
-        state = env_info.vector_observations[0]
+        state = env_info.visual_observations[0].transpose([-1,0,1,2])
         score = 0
         for t in range(max_t):
             action = agent.act(state,eps)
             env_info = env.step(action)[brain_name]        # send the action to the environment
-            next_state = env_info.vector_observations[0]   # get the next state
-            reward = env_info.rewards[0]                   # get the reward
-            done = env_info.local_done[0]                  # see if episode has finished
+            # Necessary to reshape the vector for torch conv layers
+            next_state = env_info.visual_observations[0].transpose([-1,0,1,2])
+            reward = env_info.rewards[0]
+            done = env_info.local_done[0]
             agent.step(state,action,reward,next_state,done,index)
             state = next_state
             score += reward
