@@ -22,7 +22,7 @@ The hyperparameters of the model are:
 | ----------------- | ------- | --------------------------- |
 | Replay start size | 200     | Min Replay memory to use    |
 | Replay size       | 10 000  | Replay memory max size      |
-| Batch size        | 32      | Number of samples per batch |
+| Batch size        | 50      | Number of samples per batch |
 | Update every      | 4       | Learn from replay every #.  |
 | Gamma             | 0.99    | Discount rate               |
 | Hidden layers     | [36,36] | Q-Network                   |
@@ -31,18 +31,17 @@ The hyperparameters of the model are:
 
 while the training characteristics are:
 
-| Parameter                 | Value | Description                                 |
-| ------------------------- | ----- | ------------------------------------------- |
-| Episodes                  | 1800  | # of episodes                               |
-| Steps                     | 1000  | Maximum # of steps per episode              |
-| Final score               | 130.1 | Average score after training (100 episodes) |
-| Episode before solve      | 734   | Average score of 13.1 (100 episodes)        |
-| Initial epsilon           | 1.0   |
-| Final epsilon             | 0.01  |
-| Final exploration episode | 500   |
+| Parameter           | Value | Description                                 |
+| ------------------- | ----- | ------------------------------------------- |
+| Episodes            | 1800  | # of episodes                               |
+| Steps               | 1000  | Maximum # of steps per episode              |
+| Final score         | 13.00 | Average score after training (100 episodes) |
+| # Episodes to solve | 632   | Average score of 13 (100 episodes)          |
+| Initial epsilon     | 1.0   |
+| Final epsilon       | 0.04  |
 
 The figures below illustrate respectively the average score during training.
 
-![score](Vector_banana/checkpoint.pth)
+![score](Vector_banana/vector_banana_scores.pth)
 
 The Agent could be improved by performing a Hyper parameter optimization. Or incorporating additional upgrades to DQN such as distributional value networks, or N step returns.

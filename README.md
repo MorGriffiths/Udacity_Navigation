@@ -115,3 +115,12 @@ If necessary, inside main.py, change the path to the unity environment appropria
 Each project solution is contained within the notebooks "Navigation.ipynb" and "Navigation_Pixels.ipynb"
 
 Make sure the environment path is correctly set in the desired notebook. Then run the cells as wanted.
+
+## Futher details
+
+The Vector Banana report.md is in the Vector_banana folder. Along with the performance graph and the weights.
+
+Additionally, i tried training visual banana from scratch but likely due to memory constraints it essentially broke in the notebook format. I expect i will be able to train effectively to outside of that. And in addition run some refresh to clear the cache every N epsidoes.
+
+A medium article describing the different add-ons i implemented to DQN
+[link to medium](http://google.com)
