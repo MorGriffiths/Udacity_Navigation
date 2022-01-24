@@ -43,7 +43,7 @@ class Priority_DQN(object):
         target = reward + self.GAMMA*(self.qnetwork_target(next_state).squeeze(0)[current_network_action])
         # Local. same rational for squeezing
         local = self.qnetwork_local(state).squeeze(0)[action]
-        TD_error = reward + target - local
+        TD_error = target - local
         # Save the experience
         self.memory.add(state,action,reward,next_state,done,TD_error,index)
         
